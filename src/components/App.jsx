@@ -38,6 +38,7 @@ export default function App() {
 
         const hits = data.hits;
         buttonToglee(hits.length);
+        console.log(page);
       })
       .catch(error => {
         console.log(error);
@@ -63,7 +64,7 @@ export default function App() {
   };
 
   const onLoadMore = () => {
-    setPage(prevState => prevState.page + 1);
+    setPage(prevState => prevState + 1);
   };
 
   const buttonToglee = length => {
