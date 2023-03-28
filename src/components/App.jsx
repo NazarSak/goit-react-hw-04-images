@@ -18,6 +18,10 @@ export default function App() {
   const [totalImage, setTotalImage] = useState(0);
 
   useEffect(() => {
+    if (!searchText) {
+      return;
+    }
+
     setIsLoading(true);
 
     getNews(searchText, page)
@@ -29,12 +33,11 @@ export default function App() {
           );
         }
 
+        setImg(prevImg => [...prevImg, ...data.hits]);
+        setTotalImage(data.total);
+
         const hits = data.hits;
         buttonToglee(hits.length);
-
-        setImg(prevImg => [...prevImg, ...hits]);
-
-        setTotalImage(data.total);
       })
       .catch(error => {
         console.log(error);
@@ -42,7 +45,7 @@ export default function App() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [searchText]);
+  }, [searchText,page]);
 
   const openModal = url => {
     setCurrenPreview(url);
@@ -60,9 +63,7 @@ export default function App() {
   };
 
   const onLoadMore = () => {
-    setPage(prevState => {
-      return prevState.page + 1;
-    });
+    setPage(prevState => prevState.page + 1);
   };
 
   const buttonToglee = length => {

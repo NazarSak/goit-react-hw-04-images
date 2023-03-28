@@ -1,29 +1,28 @@
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { ModalBack, ModalCon } from './modal.styled';
 import PropTypes from 'prop-types';
 
-export default function Modal ({onModalClose,image}) {
+export default function Modal({ onModalClose, image }) {
+  useEffect(() => {
 
-//  componentDidMount() {
-//     window.addEventListener('keydown', this.keyClose);
-//   }
+    const keyClose = e => {
+      if (e.code === 'Escape') {
+        onModalClose();
+      }
+    };
 
-//   componentWillUnmount() {
-//     window.addEventListener('keydown', this.keyClose);
-//   }
+    document.addEventListener('keydown', keyClose);
+    return () => {
+      document.removeEventListener('keydown', keyClose);
+    };
+  }, [onModalClose]);
 
-  
- const handleBackDropClick = e => {
+  const handleBackDropClick = e => {
     if (e.target === e.currentTarget) {
-      this.props.onModalClose();
+      onModalClose();
     }
   };
 
-// const keyClose = e => {
-//     if (e.code === 'Escape') {
-//       onModalClose();
-//     }
-//   };
 
 
   return (
@@ -34,7 +33,6 @@ export default function Modal ({onModalClose,image}) {
     </ModalBack>
   );
 }
-
 
 Modal.propTypes = {
   image: PropTypes.string.isRequired,
